@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import Mousetrap from 'mousetrap';
-import Editor from './Editor';
 import debounce from '../utils/debounce';
 import Layout from '../components/Layout';
 import Importer from './Importer';
@@ -8,6 +7,9 @@ import { useActions, useAppState } from '../state';
 import Console from '../components/Console';
 import Output from '../components/Output';
 import Button from '../components/Button';
+import Spinner from '../components/Spinner';
+
+const Editor = lazy(() => import('./Editor'));
 
 export default function App() {
   const actions = useActions();
@@ -39,7 +41,11 @@ export default function App() {
           <Importer />
         </>
       }
-      editor={<Editor />}
+      editor={
+        <Suspense fallback={<Spinner />}>
+          <Editor />
+        </Suspense>
+      }
       output={<Output />}
       console={<Console />}
     />

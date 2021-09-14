@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react-lite';
 import React, {
   ReactNode,
   useCallback,
@@ -15,7 +14,7 @@ import Spinner from '../components/Spinner';
 import { useActions, useAppState, useEffects } from '../state';
 import Button from '../components/Button';
 
-export default observer(() => {
+export default () => {
   const [open, setState] = useState(false);
   const imports = useAppState().imports;
   const actions = useActions();
@@ -57,7 +56,7 @@ export default observer(() => {
       </Modal>
     </>
   );
-});
+};
 
 const Wrapper = styled.div`
   > * {

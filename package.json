@@ -2,9 +2,9 @@
   "name": "run-ts",
   "version": "0.0.0",
   "scripts": {
-    "postinstall": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" vite_hack.ts",
+    "prebuild": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" vite_hack.ts",
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
@@ -14,8 +14,6 @@
     "axios": "^0.21.4",
     "console-feed": "^3.2.2",
     "highlight.js": "^11.2.0",
-    "mobx": "^6.3.3",
-    "mobx-react-lite": "^3.2.1",
     "monaco-editor": "^0.27.0",
     "mousetrap": "^1.6.5",
     "normalize.css": "^8.0.1",
