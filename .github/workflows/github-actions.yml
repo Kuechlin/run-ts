@@ -3,15 +3,16 @@ on: [push]
 jobs:
   deploy_to_github_pages:
     runs-on: ubuntu-latest
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '15'
-        cache: 'yarn'
-    - run: yarn install
-    - run: yarn build
-    - run: cd dist
-    - run: git init
-    - run: git add -A
-    - run: git commit -m 'deploy'
-    - run: git push -f git@github.com:Kuechlin/run-ts.git main:gh-pages
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '15'
+          cache: 'yarn'
+      - run: yarn install
+      - run: yarn build
+      - run: cd dist
+      - run: git init
+      - run: git add -A
+      - run: git commit -m 'deploy'
+      - run: git push -f git@github.com:Kuechlin/run-ts.git main:gh-pages
