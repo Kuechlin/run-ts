@@ -1,6 +1,5 @@
 import { types } from '@babel/core';
-import { transform } from '@babel/standalone';
-import { Decode, Hook } from 'console-feed';
+import babel from '@babel/standalone';
 import { Context } from '..';
 import { g, EmitOutput } from '../global';
 
@@ -16,7 +15,7 @@ export const run = async ({ state, actions, effects }: Context) => {
     // save code
     const emitOutput = await actions._save();
     // compile
-    const compiled = await actions._compile(emitOutput);
+    const compiled = await actions._transform(emitOutput);
     // execute code
     effects.executeScript(compiled);
     // wait
@@ -48,12 +47,12 @@ export const _save = async ({ effects, actions }: Context) => {
  * @param file OutputFile
  * @returns executable js
  */
-export const _compile = ({ state }: Context, output: EmitOutput) => {
+export const _transform = ({ state }: Context, output: EmitOutput) => {
   const code = output.outputFiles[0]
     ? output.outputFiles[0].text
     : 'console.error("no code")';
 
-  var result = transform(code, {
+  var result = babel.transform(code, {
     plugins: [
       {
         visitor: {
