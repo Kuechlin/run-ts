@@ -1,5 +1,20 @@
 # run ts
 
+![App](/images/app.png)
+
+    edit and run typescript in browser with direct output
+
+## [Use it Online](https://kuechlin.github.io/run-ts/)
+
+## features
+
+- [monaco editor](https://microsoft.github.io/monaco-editor/)
+- typescript intellisense
+- typescript type checking
+- react support
+- import es modules with types
+- direct output for every statement
+
 ## roadmap
 
 - [x] typescript in browser with monaco editor
@@ -8,14 +23,15 @@
 - [x] log promise
 - [x] log react component
 - [x] console feed
-- [-] import in browser
+- [x] import in browser
+- [x] preload imports
+- [x] show strg+s as button
+- [x] save local
 - [ ] multiple files
-- [ ] save local
 - [ ] multiple themes
-- [ ] plugin system
 - [ ] editable ts config
-- [ ] preload imports
-- [ ] show strg+s as button
+- [ ] import non es modules in browser
+- [ ] plugin system
 
 ### useful links
 

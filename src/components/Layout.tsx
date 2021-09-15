@@ -41,7 +41,7 @@ export default function Layout({
   return (
     <Wrapper onKeyDown={onKeyDown}>
       <Header className="text">
-        <Logo>ts typer</Logo>
+        <Logo>run ts</Logo>
         {header}
       </Header>
       <Mosaic

@@ -11,6 +11,8 @@ document.body.style.backgroundColor = theme.colors['editor.background'];
 
 const overmind = createOvermind(config);
 
+globalThis.React = React;
+
 ReactDOM.render(
   <Provider value={overmind}>
     <App />
