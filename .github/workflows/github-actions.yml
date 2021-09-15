@@ -4,18 +4,19 @@ jobs:
   deploy_to_github_pages:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
         with:
           node-version: '15'
           cache: 'yarn'
-      - run: yarn install
-      - run: yarn build
-      - run: |
-          cd dist
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git init
-          git add -A
-          git commit -m 'deploy'
-          git push -f git@github.com:Kuechlin/run-ts.git main:gh-pages
+      - name: Install and Build
+        run: |
+          yarn install
+          yarn build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: gh-pages
+          folder: dist
