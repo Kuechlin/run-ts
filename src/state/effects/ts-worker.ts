@@ -1,9 +1,8 @@
-import * as monaco from 'monaco-editor';
-import { g } from '../global';
+import { g, TypeScriptWorker, MonacoUri } from '../global';
 
 export const worker = {
-  _uri: null as monaco.Uri | null,
-  _proxy: null as monaco.languages.typescript.TypeScriptWorker | null,
+  _uri: null as MonacoUri | null,
+  _proxy: null as TypeScriptWorker | null,
 
   async getEmitOutput() {
     if (!this._uri) {

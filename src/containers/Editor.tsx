@@ -1,11 +1,8 @@
-import * as monaco from 'monaco-editor';
 import React from 'react';
-import Editor from '@monaco-editor/react';
+import Editor, { Monaco } from '@monaco-editor/react';
 import { PageSpinner } from '../components/Spinner';
 import { useActions, useEffects } from '../state';
 import { ICodeEditor } from '../state/global';
-
-type Monaco = typeof monaco;
 
 export type EditorProps = {};
 
