@@ -11,8 +11,11 @@ jobs:
           cache: 'yarn'
       - run: yarn install
       - run: yarn build
-      - run: cd dist
-      - run: git init
-      - run: git add -A
-      - run: git commit -m 'deploy'
-      - run: git push -f git@github.com:Kuechlin/run-ts.git main:gh-pages
+      - run: |
+          cd dist
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git init
+          git add -A
+          git commit -m 'deploy'
+          git push -f git@github.com:Kuechlin/run-ts.git main:gh-pages
