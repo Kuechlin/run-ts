@@ -1,5 +1,4 @@
-import { types } from '@babel/core';
-import babel from '@babel/standalone';
+import { importDeclaration, callExpression, stringLiteral } from '@babel/types';
 import { Context } from '..';
 import { g, EmitOutput } from '../global';
 
@@ -52,24 +51,22 @@ export const _transform = ({ state }: Context, output: EmitOutput) => {
     ? output.outputFiles[0].text
     : 'console.error("no code")';
 
-  var result = babel.transform(code, {
+  // @ts-ignore
+  var result = Babel.transform(code, {
     plugins: [
       {
         visitor: {
           // replace import with unpkg url
-          ImportDeclaration(path) {
+          ImportDeclaration(path: any) {
             const value = state.imports[path.node.source.value];
             if (!value || !value.url) return;
 
             path.replaceWith(
-              types.importDeclaration(
-                path.node.specifiers,
-                types.stringLiteral(value.url)
-              )
+              importDeclaration(path.node.specifiers, stringLiteral(value.url))
             );
           },
           // wrap statements with log
-          ExpressionStatement(path) {
+          ExpressionStatement(path: any) {
             if (
               path.node.expression.type === 'CallExpression' &&
               path.node.expression.callee.type === 'Identifier' &&
@@ -78,7 +75,7 @@ export const _transform = ({ state }: Context, output: EmitOutput) => {
               return;
 
             path.replaceWith(
-              types.callExpression(
+              callExpression(
                 {
                   type: 'Identifier',
                   name: 'log',
