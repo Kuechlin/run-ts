@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Text } from './Text';
 
 type TableProps<T> = {
   rowKey: string;
@@ -15,11 +16,11 @@ export default function <T extends Record<string, any>>({
   data,
 }: TableProps<T>) {
   return (
-    <Table className="text">
+    <Table>
       <thead>
         <tr>
           {columns.map((col) => (
-            <th key={col.name} children={col.name} />
+            <th key={col.name} children={<Text children={col.name} />} />
           ))}
         </tr>
       </thead>
@@ -27,7 +28,10 @@ export default function <T extends Record<string, any>>({
         {data.map((item, i) => (
           <tr key={item[rowKey]}>
             {columns.map((col) => (
-              <td key={col.name} children={col.render(item, i)} />
+              <td
+                key={col.name}
+                children={<Text children={col.render(item, i)} />}
+              />
             ))}
           </tr>
         ))}

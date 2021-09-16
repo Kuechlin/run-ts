@@ -2,7 +2,7 @@
  * local storage
  */
 export const local = {
-  defaultValue: '// run ts',
+  defaultValue: "import React from 'react';",
   defaultImports: { '@types/react': '17.0.19' },
   // save code to local storage
   save(code: string) {

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Text } from './Text';
 
 type ModalProps = {
   open: boolean;
@@ -11,7 +12,7 @@ export default function Modal({ open, title, children, onClose }: ModalProps) {
   return (
     <Wrapper open={open} onClick={onClose}>
       <Content onClick={(e) => e.stopPropagation()}>
-        {title && <Title className="text">{title}</Title>}
+        {title && <Title size={24}>{title}</Title>}
         {onClose && (
           <Button onClick={onClose}>
             <CloseIcon />
@@ -49,8 +50,8 @@ const Content = styled.div`
   border-radius: 2px;
 `;
 
-const Title = styled.div`
-  font-size: 24px;
+const Title = styled(Text)`
+  display: block;
   line-height: 42px;
   padding: 0px 8px;
   border-bottom: 1px solid #404349;

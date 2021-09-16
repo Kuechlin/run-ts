@@ -1,40 +1,41 @@
-import React, { lazy, Suspense, useEffect } from 'react';
-import Mousetrap from 'mousetrap';
+import React, { lazy, Suspense, useCallback, useEffect } from 'react';
 import debounce from '../utils/debounce';
 import Layout from '../components/Layout';
 import Importer from './Importer';
 import { useActions, useAppState } from '../state';
-import Console from '../components/Console';
 import Output from '../components/Output';
 import Button from '../components/Button';
 import Spinner from '../components/Spinner';
+import Search from '../components/Search';
 
 const Editor = lazy(() => import('./Editor'));
 
 export default function App() {
   const actions = useActions();
 
+  const handleSave = debounce(actions.run, 1000, true);
+
+  const handleKeydown = useCallback(
+    (ev: KeyboardEvent | React.KeyboardEvent) => {
+      if (ev.ctrlKey && (ev.key === 's' || ev.key === 's')) {
+        ev.preventDefault();
+        handleSave();
+      }
+    },
+    []
+  );
+
   useEffect(() => {
-    Mousetrap.bind('ctrl+s', (ev) => {
-      ev.preventDefault();
-      handleSave();
-    });
+    window.addEventListener('keydown', handleKeydown);
 
     return () => {
-      Mousetrap.unbind('ctrl+s');
+      window.removeEventListener('keydown', handleKeydown);
     };
   }, []);
 
-  const handleSave = debounce(actions.run, 1000, true);
-
   return (
     <Layout
-      onKeyDown={(ev) => {
-        if (ev.ctrlKey && (ev.key === 's' || ev.key === 's')) {
-          ev.preventDefault();
-          handleSave();
-        }
-      }}
+      onKeyDown={handleKeydown}
       header={
         <>
           <SaveButton onClick={handleSave} />
@@ -47,7 +48,6 @@ export default function App() {
         </Suspense>
       }
       output={<Output />}
-      console={<Console />}
     />
   );
 }

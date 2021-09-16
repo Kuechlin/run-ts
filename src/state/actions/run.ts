@@ -1,4 +1,3 @@
-import { importDeclaration, callExpression, stringLiteral } from '@babel/types';
 import { Context } from '..';
 import { g, EmitOutput } from '../global';
 
@@ -41,6 +40,23 @@ export const _save = async ({ effects, actions }: Context) => {
   return effects.worker.getEmitOutput();
 };
 
+const stringLiteral = (value: string): any => ({
+  type: 'StringLiteral',
+  value,
+});
+
+const importDeclaration = (specifiers: any[], source: any): any => ({
+  type: 'ImportDeclaration',
+  specifiers,
+  source,
+});
+
+const callExpression = (callee: any, args: any[]) => ({
+  type: 'CallExpression',
+  callee,
+  arguments: args,
+});
+
 /**
  * transform emit output to executable js
  * @param file OutputFile
@@ -58,12 +74,19 @@ export const _transform = ({ state }: Context, output: EmitOutput) => {
         visitor: {
           // replace import with unpkg url
           ImportDeclaration(path: any) {
-            const value = state.imports[path.node.source.value];
-            if (!value || !value.url) return;
+            if (path.node.source.value === 'react') {
+              path.remove();
+            } else {
+              const value = state.imports[path.node.source.value];
+              if (!value || !value.url) return;
 
-            path.replaceWith(
-              importDeclaration(path.node.specifiers, stringLiteral(value.url))
-            );
+              path.replaceWith(
+                importDeclaration(
+                  path.node.specifiers,
+                  stringLiteral(value.url)
+                )
+              );
+            }
           },
           // wrap statements with log
           ExpressionStatement(path: any) {

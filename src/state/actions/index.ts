@@ -17,6 +17,7 @@ export const beforeMount = ({ state }: Context, monaco: Monaco) => {
   monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
     target: monaco.languages.typescript.ScriptTarget.ESNext,
     allowNonTsExtensions: true,
+    allowSyntheticDefaultImports: true,
     moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
     module: monaco.languages.typescript.ModuleKind.ESNext,
     noEmit: false,

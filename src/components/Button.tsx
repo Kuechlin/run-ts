@@ -1,6 +1,7 @@
 import React from 'react';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import { Text } from './Text';
 
 type Props = {
   onClick?(): void;
@@ -8,7 +9,13 @@ type Props = {
   children?: ReactNode;
 };
 export default function ({ onClick, style, children }: Props) {
-  return <Button onClick={onClick} style={style} children={children} />;
+  return (
+    <Button
+      onClick={onClick}
+      style={style}
+      children={<Text children={children} />}
+    />
+  );
 }
 
 const Button = styled.div`

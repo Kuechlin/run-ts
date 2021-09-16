@@ -1,7 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
 
 const config = {
   entry: './src/main.tsx',
@@ -25,10 +28,15 @@ const config = {
       },
     ],
   },
+  externals: {
+    // Use external version of React
+    react: 'React',
+    'react-dom': 'ReactDOM',
+  },
   plugins: [
-    new webpack.ProvidePlugin({
-      process: 'process/browser',
-    }),
+    new BundleAnalyzerPlugin(),
+    new webpack.IgnorePlugin(/react/),
+    new webpack.IgnorePlugin(/react-dom/),
     new HtmlWebpackPlugin({
       title: 'run-ts',
       cdnModule: 'react',
@@ -42,6 +50,7 @@ const config = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   optimization: {
+    minimizer: [new TerserPlugin()],
     runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {

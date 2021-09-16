@@ -7,12 +7,12 @@ import React, {
 } from 'react';
 import Modal from '../components/Modal';
 import Table from '../components/Table';
-import AsyncSelect from 'react-select/async';
 import debounce from '../utils/debounce';
 import styled from 'styled-components';
 import Spinner from '../components/Spinner';
 import { useActions, useAppState, useEffects } from '../state';
 import Button from '../components/Button';
+import Search from '../components/Search';
 
 export default () => {
   const [open, setState] = useState(false);
@@ -68,23 +68,11 @@ const Wrapper = styled.div`
   }
 `;
 
-type PackageOption = {
-  value: string;
-  label: ReactNode;
-};
-
 const PackageSearch = ({ open }: { open: boolean }) => {
-  const ref = useRef<AsyncSelect<any>>(null);
-  const [selected, setSelected] = useState<PackageOption | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const effects = useEffects();
   const actions = useActions();
-
-  useEffect(() => {
-    if (open) {
-      ref.current?.focus();
-    }
-  }, [open]);
 
   const search = debounce(effects.search, 1000);
 
@@ -93,7 +81,7 @@ const PackageSearch = ({ open }: { open: boolean }) => {
       try {
         setLoading(true);
         console.log(selected);
-        await actions.install({ name: selected.value });
+        await actions.install({ name: selected });
       } catch (error) {
         console.log(error);
       } finally {
@@ -106,38 +94,10 @@ const PackageSearch = ({ open }: { open: boolean }) => {
   return (
     <SelectWrapper>
       <div style={{ flexGrow: 1 }}>
-        <AsyncSelect<PackageOption>
-          ref={ref}
-          isDisabled={loading}
-          cacheOptions
-          loadOptions={search}
-          value={selected}
-          onChange={setSelected}
-          isClearable
-          styles={{
-            control: (base, { isFocused }) => ({
-              ...base,
-              backgroundColor: 'transparent',
-              border: '1px solid #404349',
-              outline: isFocused ? 'blue' : 'none',
-            }),
-            menu: (base) => ({
-              ...base,
-              backgroundColor: '#404349',
-            }),
-            option: (base, { isFocused, isSelected }) => ({
-              ...base,
-              backgroundColor: isFocused || isSelected ? '#98c379' : '#404349',
-            }),
-            singleValue: (base) => ({
-              ...base,
-              color: '#d4d4d4',
-            }),
-            input: (base) => ({
-              ...base,
-              color: '#d4d4d4',
-            }),
-          }}
+        <Search
+          value={selected || ''}
+          onSearch={search}
+          onSelect={setSelected}
         />
       </div>
       <InstallIcon loading={loading} onClick={install} />

@@ -1,63 +1,41 @@
 import React from 'react';
+import Split from 'react-split';
 import styled from 'styled-components';
-import { Mosaic } from 'react-mosaic-component';
-import 'react-mosaic-component/react-mosaic-component.css';
+import { Text } from './Text';
 
 type LayoutProps = {
   header: React.ReactNode;
   editor: React.ReactNode;
   output: React.ReactNode;
-  console: React.ReactNode;
   onKeyDown(ev: React.KeyboardEvent): void;
 };
 export default function Layout({
   header,
   editor,
   output,
-  console,
   onKeyDown,
 }: LayoutProps) {
-  const elements: any = {
-    editor: (
-      <Cell style={{ borderRight: '1px solid #404349' }}>
-        <Title children="editor" className="text" />
-        {editor}
-      </Cell>
-    ),
-    output: (
-      <Cell>
-        <Title children="output" className="text" />
-        {output}
-      </Cell>
-    ),
-    console: (
-      <Cell>
-        <Title children="console" className="text" />
-        {console}
-      </Cell>
-    ),
-  };
-
   return (
     <Wrapper onKeyDown={onKeyDown}>
-      <Header className="text">
-        <Logo>run ts</Logo>
+      <Header>
+        <Text
+          strong
+          size={22}
+          style={{ padding: '0px 8px' }}
+          children="run ts"
+        />
         {header}
       </Header>
-      <Mosaic
-        renderTile={(id) => elements[id]}
-        initialValue={{
-          direction: 'row',
-          first: 'editor',
-          second: {
-            direction: 'column',
-            first: 'output',
-            second: 'console',
-            splitPercentage: 60,
-          },
-          splitPercentage: 60,
-        }}
-      />
+      <Split className="split" gutterSize={4} sizes={[60, 40]}>
+        <Cell style={{ borderRight: '1px solid #404349' }}>
+          <Title children="editor" />
+          {editor}
+        </Cell>
+        <Cell>
+          <Title children="output" />
+          {output}
+        </Cell>
+      </Split>
     </Wrapper>
   );
 }
@@ -66,28 +44,20 @@ const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  .text {
-    font-family: Consolas, 'Courier New', monospace;
-    font-weight: normal;
-    font-feature-settings: 'liga' 0, 'calt' 0;
-  }
+  background-color: #282c34;
 
-  .mosaic {
-    background-color: #282c34;
-
+  .split {
     height: calc(100vh - 32px);
+    display: flex;
+    flex-direction: row;
   }
-  .mosaic-root {
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  .gutter {
+    z-index: 1;
+    margin: 0px -2px;
+    cursor: col-resize;
   }
-  .mosaic-tile {
-    margin: 0;
-  }
-  .mosaic .mosaic-split:hover .mosaic-split-line {
-    box-shadow: 0 0 0 2px #404349;
+  .gutter:hover {
+    background-color: #404349;
   }
 `;
 
@@ -99,13 +69,6 @@ const Header = styled.header`
   align-items: center;
 `;
 
-const Logo = styled.h2`
-  margin: 0;
-  color: #d4d4d4;
-  line-height: 32px;
-  padding: 0px 8px;
-`;
-
 const Cell = styled.div<{ height?: string; width?: string }>`
   height: ${(p) => p.height || '100%'};
   width: ${(p) => p.width || '100%'};
@@ -113,13 +76,11 @@ const Cell = styled.div<{ height?: string; width?: string }>`
   flex-direction: column;
 `;
 
-const Title = styled.div`
+const Title = styled(Text)`
   height: 32px;
-  color: #d4d4d4;
   border-top: 1px solid #404349;
   border-bottom: 1px solid #404349;
 
-  font-size: 16px;
   line-height: 32px;
   padding: 0px 8px;
 `;

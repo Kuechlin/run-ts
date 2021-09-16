@@ -1,10 +1,11 @@
 import React, { isValidElement, useCallback, useEffect, useState } from 'react';
-import Highlight from 'react-highlight';
-import 'highlight.js/styles/atom-one-dark.css';
+
 import styled from 'styled-components';
 import theme from '../theme.json';
+import { Highlight } from './Highlight';
 import ScrollArea from './ScrollArea';
 import Spinner from './Spinner';
+import { Text } from './Text';
 
 export default function Output() {
   const [output, setOutput] = useState<Record<string, any>>({});
@@ -37,7 +38,7 @@ export default function Output() {
       {Object.entries(output).map(([key, val]) => (
         <LineWrapper key={key}>
           <LineNumberWrapper>
-            <LineNumber className="text">{key}</LineNumber>
+            <LineNumber size={14}>{key}</LineNumber>
           </LineNumberWrapper>
           <ContentWrapper>
             <Log value={val} />
@@ -60,13 +61,12 @@ const LineNumberWrapper = styled.div`
   height: 19px;
 `;
 
-const LineNumber = styled.div`
+const LineNumber = styled(Text)`
   position: absolute;
   width: 38px;
   left: 0;
 
   color: ${theme.colors['editorLineNumber.foreground']};
-  font-size: 14px;
   line-height: 19px;
   letter-spacing: 0px;
   text-align: right;
@@ -106,9 +106,5 @@ function Log({ value }: LogProps) {
     return state;
   }
 
-  return (
-    <Highlight className="language-javascript">
-      {JSON.stringify(state, null, 2)}
-    </Highlight>
-  );
+  return <Highlight value={state} />;
 }
