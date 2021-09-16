@@ -91,9 +91,11 @@ export const _transform = ({ state }: Context, output: EmitOutput) => {
           // wrap statements with log
           ExpressionStatement(path: any) {
             if (
-              path.node.expression.type === 'CallExpression' &&
-              path.node.expression.callee.type === 'Identifier' &&
-              path.node.expression.callee.name === 'log'
+              (path.node.expression.type === 'CallExpression' &&
+                path.node.expression.callee.type === 'Identifier' &&
+                path.node.expression.callee.name === 'log') ||
+              (path.node.expression.type === 'UnaryExpression' &&
+                path.node.expression.argument.type !== 'UnaryExpression')
             )
               return;
 
