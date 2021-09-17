@@ -64,7 +64,7 @@ const Wrapper = styled.div`
   }
 
   em {
-    color: #c678dd;
+    color: ${(p) => p.theme.colors.link};
   }
 `;
 
@@ -115,12 +115,12 @@ const Icon = styled.div`
   width: 24px;
   padding: 6px;
   margin-left: 8px;
-  border: 1px solid #404349;
+  border: 1px solid ${(p) => p.theme.colors.border};
   cursor: pointer;
   border-radius: 4px;
   z-index: 1;
   &:hover {
-    border-color: #c678dd;
+    border-color: ${(p) => p.theme.colors.link};
   }
 `;
 const InstallIcon = ({
@@ -132,7 +132,7 @@ const InstallIcon = ({
 }) => (
   <Icon onClick={onClick}>
     {loading ? (
-      <Spinner size={20} color="#4dc4ff" />
+      <Spinner size={20} />
     ) : (
       <svg
         xmlns="http://www.w3.org/2000/svg"

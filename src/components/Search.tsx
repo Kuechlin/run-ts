@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import { shadeColor } from '../utils/theme';
 import Spinner from './Spinner';
 import { Text } from './Text';
 
@@ -88,11 +89,11 @@ const InputWrapper = styled.div<{ open: boolean }>`
 
   padding: 4px 8px;
 
-  border: 1px solid #404349;
+  border: 1px solid ${(p) => p.theme.colors.border};
   border-radius: ${(p) => (p.open ? '4px 4px 0px 0px' : '4px')};
   &:focus,
   &:hover {
-    border-color: #51555e;
+    border-color: ${(p) => shadeColor(p.theme.colors.link, -20)};
   }
 `;
 const Input = styled.input`
@@ -102,10 +103,10 @@ const Input = styled.input`
 
   outline: none;
   border: none;
-  color: #dcdfe4;
-  font-family: Consolas, 'Courier New', monospace;
+  color: ${(p) => p.theme.colors.foreground};
+  font-family: ${(p) => p.theme.font.name};
+  font-feature-settings: ${(p) => p.theme.font.feature};
   font-weight: normal;
-  font-feature-settings: 'liga' 0, 'calt' 0;
   font-size: 16px;
   line-height: 24px;
 `;
@@ -116,7 +117,7 @@ const Options = styled.div<{ open: boolean }>`
   left: 0;
   top: 28px;
   right: 0;
-  background-color: #404349;
+  background-color: ${(p) => shadeColor(p.theme.colors.background, 20)};
   border-radius: 0px 0px 4px 4px;
 
   display: ${(p) => (p.open ? 'block' : 'none')};
@@ -131,14 +132,14 @@ const Options = styled.div<{ open: boolean }>`
     padding: 4px 8px;
     width: 100%;
     text-align: left;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid ${(p) => shadeColor(p.theme.colors.background, 10)};
     cursor: pointer;
     font-size: 16px;
     line-height: 24px;
 
     &:hover,
     &:focus {
-      background-color: rgba(0, 0, 0, 0.1);
+      background-color: ${(p) => shadeColor(p.theme.colors.background, 40)};
     }
   }
   button:last-child {

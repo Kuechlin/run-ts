@@ -33,9 +33,9 @@ export const Text = ({
 };
 
 const Span = styled.span`
-  color: #dcdfe4;
-  font-family: Consolas, 'Courier New', monospace;
+  color: ${(p) => p.theme.colors.foreground};
+  font-family: ${(p) => p.theme.font.name};
+  font-feature-settings: ${(p) => p.theme.font.feature};
   font-weight: normal;
-  font-feature-settings: 'liga' 0, 'calt' 0;
   font-size: 16px;
 `;

@@ -45,8 +45,8 @@ const Wrapper = styled.div<{ open: boolean }>`
 
 const Content = styled.div`
   position: relative;
-  background-color: #282c34;
-  color: #d4d4d4;
+  background-color: ${(p) => p.theme.colors.background};
+  color: ${(p) => p.theme.colors.foreground};
   border-radius: 2px;
 `;
 
@@ -54,7 +54,7 @@ const Title = styled(Text)`
   display: block;
   line-height: 42px;
   padding: 0px 8px;
-  border-bottom: 1px solid #404349;
+  border-bottom: 1px solid ${(p) => p.theme.colors.border};
 `;
 
 const Button = styled.div`
@@ -63,12 +63,12 @@ const Button = styled.div`
   right: 8px;
   width: 24px;
   height: 24px;
-  color: #d4d4d4;
+  color: ${(p) => p.theme.colors.foreground};
   transition: color 0.5s ease;
   cursor: pointer;
 
   &:hover {
-    color: #404349;
+    color: ${(p) => p.theme.colors.link};
   }
 `;
 

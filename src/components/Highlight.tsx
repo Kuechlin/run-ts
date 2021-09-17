@@ -1,4 +1,5 @@
 import React, { Fragment, ReactNode } from 'react';
+import { useTheme } from 'styled-components';
 import { Text } from './Text';
 
 type HighlightProps = {
@@ -56,23 +57,33 @@ const GroupHighlight = ({ value, prefix }: HighlightProps) => {
 };
 
 const ValueHighlight = ({ value }: HighlightProps) => {
+  const { colors } = useTheme();
+
   var val = value?.toString();
   if (value === undefined) val = 'undefined';
   if (value === null) val = 'null';
 
+  let color;
+  switch (typeof value) {
+    case 'string':
+      color = colors.string;
+      break;
+    case 'number':
+      color = colors.number;
+      break;
+    case 'boolean':
+      color = colors.keyword;
+      break;
+    default:
+      color = colors.type;
+      break;
+  }
   return (
     <Text
       children={val}
       style={{
-        color: type_color_map[typeof value] || type_color_map['default'],
+        color: color,
       }}
     />
   );
-};
-
-const type_color_map: Record<string, string> = {
-  number: '#56B6C2',
-  string: '#98C379',
-  boolean: '#C678DD',
-  default: '#E5C07B',
 };

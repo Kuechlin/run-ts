@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 type Props = {
   size?: number;
@@ -7,21 +7,27 @@ type Props = {
   color?: string;
 };
 export default function ({ size = 16, stroke = 2, color }: Props) {
-  return <Spinner size={size} stroke={stroke} color={color || '#d4d4d4'} />;
+  const { colors } = useTheme();
+  return (
+    <Spinner size={size} stroke={stroke} color={color || colors.foreground} />
+  );
 }
 
-export const PageSpinner = () => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-    }}
-  >
-    <Spinner size={100} stroke={16} color={'#d4d4d4'} />
-  </div>
-);
+export const PageSpinner = () => {
+  const { colors } = useTheme();
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+      }}
+    >
+      <Spinner size={100} stroke={16} color={colors.foreground} />
+    </div>
+  );
+};
 
 const Spinner = styled.div<{ size: number; stroke: number; color: string }>`
   display: inline-block;

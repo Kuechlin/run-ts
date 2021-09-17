@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { shadeColor } from '../utils/theme';
 import { Text } from './Text';
 
 type TableProps<T> = {
@@ -47,11 +48,11 @@ const Table = styled.table`
   td,
   th {
     text-align: left;
-    border: 1px solid #404349;
+    border: 1px solid ${(p) => p.theme.colors.border};
     padding: 8px;
   }
 
   tr:nth-child(even) {
-    background-color: #1d2026;
+    background-color: ${(p) => shadeColor(p.theme.colors.background, -10)};
   }
 `;

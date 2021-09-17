@@ -1,6 +1,7 @@
 import React from 'react';
 import Split from 'react-split';
 import styled from 'styled-components';
+import { shadeColor } from '../utils/theme';
 import { Text } from './Text';
 
 type LayoutProps = {
@@ -27,7 +28,7 @@ export default function Layout({
         {header}
       </Header>
       <Split className="split" gutterSize={4} sizes={[60, 40]}>
-        <Cell style={{ borderRight: '1px solid #404349' }}>
+        <Cell border>
           <Title children="editor" />
           {editor}
         </Cell>
@@ -44,7 +45,7 @@ const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #282c34;
+  background-color: ${(p) => p.theme.colors.background};
 
   .split {
     height: calc(100vh - 32px);
@@ -57,29 +58,31 @@ const Wrapper = styled.div`
     cursor: col-resize;
   }
   .gutter:hover {
-    background-color: #404349;
+    background-color: ${(p) => p.theme.colors.border};
   }
 `;
 
 const Header = styled.header`
   height: 32px;
-  background-color: #1d2026;
+  background-color: ${(p) => shadeColor(p.theme.colors.background, -20)};
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const Cell = styled.div<{ height?: string; width?: string }>`
+const Cell = styled.div<{ height?: string; width?: string; border?: boolean }>`
   height: ${(p) => p.height || '100%'};
   width: ${(p) => p.width || '100%'};
   display: flex;
   flex-direction: column;
+  border-right: ${(p) =>
+    p.border ? '1px solid ' + p.theme.colors.border : ''};
 `;
 
 const Title = styled(Text)`
   height: 32px;
-  border-top: 1px solid #404349;
-  border-bottom: 1px solid #404349;
+  border-top: 1px solid ${(p) => p.theme.colors.border};
+  border-bottom: 1px solid ${(p) => p.theme.colors.border};
 
   line-height: 32px;
   padding: 0px 8px;

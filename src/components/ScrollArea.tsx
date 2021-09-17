@@ -27,16 +27,16 @@ export default styled(ScrollArea)`
       top: 0;
     }
 
-    background-color: #282c34;
+    background-color: ${(p) => p.theme.colors.background};
     width: 12px;
-    border-left: 1px solid #404349;
-    border-right: 1px solid #404349;
+    border-left: 1px solid ${(p) => p.theme.colors.border};
+    border-right: 1px solid ${(p) => p.theme.colors.border};
     position: absolute;
     z-index: 99;
   }
 
   .scrollbar {
-    background-color: #404349;
+    background-color: ${(p) => p.theme.colors.border};
     width: 12px;
     opacity: 0.1;
     height: 20px;

@@ -7,6 +7,7 @@ import Output from '../components/Output';
 import Button from '../components/Button';
 import Spinner from '../components/Spinner';
 import Search from '../components/Search';
+import { useTheme } from 'styled-components';
 
 const Editor = lazy(() => import('./Editor'));
 
@@ -54,10 +55,11 @@ export default function App() {
 
 const SaveButton = ({ onClick }: { onClick(): void }) => {
   const state = useAppState();
+  const { colors } = useTheme();
   return (
     <Button
       style={{
-        border: state.running ? '1px solid #c678dd' : undefined,
+        border: state.running ? '1px solid ' + colors.link : undefined,
         transition: '0.5s',
       }}
       onClick={onClick}

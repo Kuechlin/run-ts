@@ -1,7 +1,6 @@
 import React, { isValidElement, useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
-import theme from '../theme.json';
 import { Highlight } from './Highlight';
 import ScrollArea from './ScrollArea';
 import Spinner from './Spinner';
@@ -67,7 +66,7 @@ const LineNumber = styled(Text)`
   width: 38px;
   left: 0;
 
-  color: ${theme.colors['editorLineNumber.foreground']};
+  color: ${(p) => p.theme.colors.lineNumber};
   line-height: 19px;
   letter-spacing: 0px;
   text-align: right;
@@ -128,5 +127,5 @@ function Log({ value }: LogProps) {
 }
 
 const Error = styled(Text)`
-  color: red;
+  color: ${(p) => p.theme.colors.error};
 `;

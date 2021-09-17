@@ -1,6 +1,6 @@
 import { Context } from '..';
+import { createEditorTheme, defaultTheme } from '../../utils/theme';
 import { g, ICodeEditor, Monaco } from '../global';
-import oneDark from '../../theme.json';
 
 export * from './import';
 export * from './run';
@@ -12,7 +12,10 @@ export * from './run';
 export const beforeMount = ({ state }: Context, monaco: Monaco) => {
   state.current = 'mounting';
 
-  monaco.editor.defineTheme('one-dark', oneDark as any);
+  monaco.editor.defineTheme('one-dark', createEditorTheme(defaultTheme));
+
+  console.log(monaco.languages.typescript);
+
   // config compiler
   monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
     target: monaco.languages.typescript.ScriptTarget.ESNext,

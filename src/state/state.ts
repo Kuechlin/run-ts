@@ -1,10 +1,3 @@
-export type AppState = {
-  current: 'initial' | 'mounting' | 'mounted';
-  running?: boolean;
-  imports: Record<string, Package>;
-  libraries: TypesLibrary[];
-};
-
 export type Package = {
   name: string;
   version: string;
@@ -22,6 +15,18 @@ export type TypesLibrary = {
 export type TypesFile = {
   fileName: string;
   content: string;
+};
+
+export type AppSettings = {
+  themes: Record<string, any>;
+  theme: string;
+};
+
+export type AppState = {
+  current: 'initial' | 'mounting' | 'mounted';
+  running?: boolean;
+  imports: Record<string, Package>;
+  libraries: TypesLibrary[];
 };
 
 export const state: AppState = {
