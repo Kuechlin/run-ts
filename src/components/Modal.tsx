@@ -28,7 +28,7 @@ const Wrapper = styled.div<{ open: boolean }>`
   display: ${(p) => (p.open ? 'block' : 'none')};
   opacity: ${(p) => (p.open ? 1 : 0)};
   z-index: ${(p) => (p.open ? 100 : 0)};
-  transition: opacity 0.5s ease;
+  transition: 0.5s ease;
   background-color: rgba(0, 0, 0, 0.6);
 
   position: fixed;
@@ -37,7 +37,7 @@ const Wrapper = styled.div<{ open: boolean }>`
   height: 100vh;
   width: 100vw;
 
-  padding-top: 200px;
+  padding-top: ${(p) => (p.open ? '200px' : '-100vh')};
   display: flex;
   justify-content: center;
   align-items: flex-start;

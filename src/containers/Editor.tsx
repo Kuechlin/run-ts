@@ -18,7 +18,7 @@ export default function () {
       width="100%"
       height="100%"
       language="typescript"
-      theme="one-dark"
+      theme="default-dark"
       onMount={handleDidMount}
       beforeMount={actions.beforeMount}
       defaultValue={effects.local.load()}

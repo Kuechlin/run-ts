@@ -10,14 +10,16 @@ type TableProps<T> = {
     render: (data: T, i: number) => React.ReactNode;
   }[];
   data: T[];
+  style?: React.CSSProperties;
 };
 export default function <T extends Record<string, any>>({
   rowKey,
   columns,
   data,
+  style,
 }: TableProps<T>) {
   return (
-    <Table>
+    <Table style={style}>
       <thead>
         <tr>
           {columns.map((col) => (

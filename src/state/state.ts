@@ -1,3 +1,5 @@
+import { defaultTheme, Theme } from '../utils/theme';
+
 export type Package = {
   name: string;
   version: string;
@@ -17,20 +19,17 @@ export type TypesFile = {
   content: string;
 };
 
-export type AppSettings = {
-  themes: Record<string, any>;
-  theme: string;
-};
-
 export type AppState = {
   current: 'initial' | 'mounting' | 'mounted';
   running?: boolean;
   imports: Record<string, Package>;
   libraries: TypesLibrary[];
+  theme: Theme;
 };
 
 export const state: AppState = {
   current: 'initial',
   imports: {},
   libraries: [],
+  theme: defaultTheme,
 };

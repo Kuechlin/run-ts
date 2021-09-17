@@ -1,3 +1,5 @@
+import { defaultTheme, Theme } from '../../utils/theme';
+
 /**
  * local storage
  */
@@ -13,6 +15,20 @@ export const local = {
     const value = localStorage.getItem('code');
     if (value) return value;
     else return this.defaultValue;
+  },
+  // get settings
+  getTheme(): Theme {
+    const value = localStorage.getItem('theme');
+    try {
+      if (value) return JSON.parse(value);
+      else return defaultTheme;
+    } catch (error) {
+      return defaultTheme;
+    }
+  },
+  // save settings to local storage
+  setTheme(theme: Theme) {
+    localStorage.setItem('theme', JSON.stringify(theme));
   },
   // add import to local storage
   addImport(name: string, version: string) {

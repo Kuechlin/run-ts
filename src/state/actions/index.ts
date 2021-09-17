@@ -1,18 +1,22 @@
 import { Context } from '..';
-import { createEditorTheme, defaultTheme } from '../../utils/theme';
+import { createEditorTheme, defaultTheme, Theme } from '../../utils/theme';
 import { g, ICodeEditor, Monaco } from '../global';
 
 export * from './import';
 export * from './run';
 
+export const onInitializeOvermind = async ({ state, effects }: Context) => {
+  state.theme = effects.local.getTheme();
+};
+
 /**
  * Monaco Editor before mount
  * @param payload Monaco reference
  */
-export const beforeMount = ({ state }: Context, monaco: Monaco) => {
+export const beforeMount = ({ state, effects }: Context, monaco: Monaco) => {
   state.current = 'mounting';
 
-  monaco.editor.defineTheme('one-dark', createEditorTheme(defaultTheme));
+  monaco.editor.defineTheme('default-dark', createEditorTheme(state.theme));
 
   console.log(monaco.languages.typescript);
 
@@ -50,4 +54,20 @@ export const didMount = async (
   for (const [name, version] of Object.entries(effects.local.getImports())) {
     await actions.install({ name, version });
   }
+};
+
+/**
+ * update theme colors and reload
+ * @param theme theme colors
+ */
+export const updateTheme = ({ state, effects }: Context, theme: Theme) => {
+  state.theme = theme;
+  effects.local.setTheme(theme);
+  g.monaco?.editor.defineTheme('default-dark', createEditorTheme(state.theme));
+};
+
+export const resetTheme = ({ state, effects }: Context) => {
+  state.theme = defaultTheme;
+  effects.local.setTheme(defaultTheme);
+  g.monaco?.editor.defineTheme('default-dark', createEditorTheme(state.theme));
 };

@@ -1,6 +1,7 @@
 import React, { isValidElement, useCallback, useEffect, useState } from 'react';
 
 import styled from 'styled-components';
+import { invertColor, isColor } from '../utils/theme';
 import { Highlight } from './Highlight';
 import ScrollArea from './ScrollArea';
 import Spinner from './Spinner';
@@ -41,7 +42,7 @@ export default function Output() {
             <LineNumber size={14}>{key}</LineNumber>
           </LineNumberWrapper>
           <ContentWrapper>
-            <Log value={val} />
+            <LogOutput value={val} />
           </ContentWrapper>
         </LineWrapper>
       ))}
@@ -89,7 +90,7 @@ type LogState = {
   type: 'loading' | 'success' | 'error';
   value?: any;
 };
-function Log({ value }: LogProps) {
+export function LogOutput({ value }: LogProps) {
   const [state, setState] = useState<LogState>(
     value instanceof Promise ? { type: 'loading' } : { type: 'success', value }
   );
@@ -120,11 +121,22 @@ function Log({ value }: LogProps) {
     case 'success':
       if (isValidElement(state.value)) {
         return state.value;
+      } else if (isColor(state.value)) {
+        return <Color children={state.value} />;
       } else {
         return <Highlight value={state.value} />;
       }
   }
 }
+
+export const Color = styled.div<{ children: string }>`
+  border: 2px solid ${(p) => p.theme.colors.border};
+  background-color: ${(p) => p.children};
+  color: ${(p) => invertColor(p.children)};
+  font-family: ${(p) => p.theme.font.name};
+  font-feature-settings: ${(p) => p.theme.font.feature};
+  padding: 8px 16px;
+`;
 
 const Error = styled(Text)`
   color: ${(p) => p.theme.colors.error};

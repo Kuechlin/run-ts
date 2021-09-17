@@ -24,7 +24,6 @@ export const defaultTheme: Theme = {
     foreground: colors.white,
     link: colors.blue,
     lineNumber: shadeColor(colors.black, 60),
-    lineNumberActive: colors.blue,
     border: shadeColor(colors.black, 60),
     cursor: colors.blue,
     error: colors.red,
@@ -51,7 +50,6 @@ export type Theme = {
     foreground: string;
     link: string;
     lineNumber: string;
-    lineNumberActive: string;
     border: string;
     cursor: string;
     error: string;
@@ -66,6 +64,16 @@ export type Theme = {
   };
 };
 
+enum TokenType {
+  Type = 'type',
+  Keyword = 'keyword',
+  Delimiter = 'delimiter',
+  Comment = 'comment',
+  Identifier = 'identifier',
+  NumberLiteral = 'number',
+  StringLiteral = 'string',
+  RegExpLiteral = 'regexp',
+}
 export const createEditorTheme = ({ colors }: Theme): IThemeData => ({
   base: 'vs-dark',
   inherit: true,
@@ -78,7 +86,7 @@ export const createEditorTheme = ({ colors }: Theme): IThemeData => ({
     'editorCursor.foreground': colors.cursor,
     'editorWhitespace.foreground': shadeColor(colors.foreground, -60),
     'editorLineNumber.foreground': colors.lineNumber,
-    'editorLineNumber.activeForeground': colors.lineNumberActive,
+    'editorLineNumber.activeForeground': colors.cursor,
     'editorError.foreground': colors.error,
     'editorSuggestWidget.background': shadeColor(colors.background, -10),
     'editorSuggestWidget.border': colors.border,
@@ -110,32 +118,61 @@ export const createEditorTheme = ({ colors }: Theme): IThemeData => ({
 });
 
 export function shadeColor(color: string, percent: number) {
-  var R = parseInt(color.substring(1, 3), 16);
-  var G = parseInt(color.substring(3, 5), 16);
-  var B = parseInt(color.substring(5, 7), 16);
+  var { r, g, b } = parseColor(color);
 
-  R = Math.round((R * (100 + percent)) / 100);
-  G = Math.round((G * (100 + percent)) / 100);
-  B = Math.round((B * (100 + percent)) / 100);
+  r = Math.round((r * (100 + percent)) / 100);
+  g = Math.round((g * (100 + percent)) / 100);
+  b = Math.round((b * (100 + percent)) / 100);
 
-  R = R < 255 ? R : 255;
-  G = G < 255 ? G : 255;
-  B = B < 255 ? B : 255;
+  r = r < 255 ? r : 255;
+  g = g < 255 ? g : 255;
+  b = b < 255 ? b : 255;
 
-  var RR = R.toString(16).length == 1 ? '0' + R.toString(16) : R.toString(16);
-  var GG = G.toString(16).length == 1 ? '0' + G.toString(16) : G.toString(16);
-  var BB = B.toString(16).length == 1 ? '0' + B.toString(16) : B.toString(16);
-
-  return '#' + RR + GG + BB;
+  return stringifyColor(r, g, b);
 }
 
-enum TokenType {
-  Type = 'type',
-  Keyword = 'keyword',
-  Delimiter = 'delimiter',
-  Comment = 'comment',
-  Identifier = 'identifier',
-  NumberLiteral = 'number',
-  StringLiteral = 'string',
-  RegExpLiteral = 'regexp',
+export function isColor(color: string) {
+  return /^#{0,1}[0-9a-f]{3,6}$/i.test(color);
+}
+
+export function invertColor(color: string) {
+  var { r, g, b } = parseColor(color);
+  // invert color components
+  r = 255 - r;
+  g = 255 - g;
+  b = 255 - b;
+  // pad each with zeros and return
+  return stringifyColor(r, g, b);
+}
+
+function parseColor(color: string): { r: number; g: number; b: number } {
+  // remove hash
+  if (color.indexOf('#') === 0) {
+    color = color.slice(1);
+  }
+  // convert 3-digit hex to 6-digits.
+  if (color.length === 3) {
+    color = color[0] + color[0] + color[1] + color[1] + color[2] + color[2];
+  }
+  if (color.length !== 6) {
+    throw new Error('Invalid HEX color.');
+  }
+  return {
+    r: parseInt(color.substring(0, 2), 16),
+    g: parseInt(color.substring(2, 4), 16),
+    b: parseInt(color.substring(4, 6), 16),
+  };
+}
+
+function padZero(str: string, len = 2) {
+  var zeros = new Array(len).join('0');
+  return (zeros + str).slice(-len);
+}
+
+function stringifyColor(r: number, g: number, b: number) {
+  var RR = padZero(r.toString(16));
+  var GG = padZero(g.toString(16));
+  var BB = padZero(b.toString(16));
+
+  return '#' + RR + GG + BB;
 }

@@ -25,6 +25,7 @@ export default function Layout({
           style={{ padding: '0px 8px' }}
           children="run ts"
         />
+        <div style={{ flexGrow: 1 }} />
         {header}
       </Header>
       <Split className="split" gutterSize={4} sizes={[60, 40]}>

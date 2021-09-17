@@ -22,9 +22,11 @@ export default function Search({ value, onSearch, onSelect }: Props) {
   const [options, setOptions] = useState<SearchOption[]>([]);
 
   const handleOpen = (ev: React.MouseEvent) => {
-    ev.preventDefault();
-    ev.stopPropagation();
     setOpen(true);
+  };
+  const handleClose = (ev: React.MouseEvent) => {
+    ev.stopPropagation();
+    setOpen(false);
   };
 
   const handleSearch = useCallback(
@@ -50,6 +52,7 @@ export default function Search({ value, onSearch, onSelect }: Props) {
 
   return (
     <Wrapper onClick={handleOpen}>
+      {open && <Cover onClick={handleClose} />}
       <InputWrapper open={open}>
         <Input value={search || value} onChange={handleSearch} />
         {loading && <Spinner />}
@@ -86,6 +89,7 @@ const Wrapper = styled.div`
 const InputWrapper = styled.div<{ open: boolean }>`
   display: flex;
   align-items: center;
+  z-index: 1;
 
   padding: 4px 8px;
 
@@ -111,14 +115,23 @@ const Input = styled.input`
   line-height: 24px;
 `;
 
+const Cover = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+`;
+
 const Options = styled.div<{ open: boolean }>`
   position: absolute;
   overflow: hidden;
   left: 0;
-  top: 28px;
+  top: 35px;
   right: 0;
   background-color: ${(p) => shadeColor(p.theme.colors.background, 20)};
   border-radius: 0px 0px 4px 4px;
+  border: 1px solid ${(p) => p.theme.colors.border};
 
   display: ${(p) => (p.open ? 'block' : 'none')};
   max-height: ${(p) => (p.open ? '500px' : '0px')};
@@ -132,7 +145,7 @@ const Options = styled.div<{ open: boolean }>`
     padding: 4px 8px;
     width: 100%;
     text-align: left;
-    border-bottom: 1px solid ${(p) => shadeColor(p.theme.colors.background, 10)};
+    border-bottom: 1px solid ${(p) => p.theme.colors.border};
     cursor: pointer;
     font-size: 16px;
     line-height: 24px;

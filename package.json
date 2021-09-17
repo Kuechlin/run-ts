@@ -15,6 +15,7 @@
     "overmind": "^28.0.1",
     "overmind-react": "^29.0.1",
     "react": "^17.0.0",
+    "react-color": "^2.19.3",
     "react-dom": "^17.0.0",
     "react-scrollbar": "^0.5.6",
     "react-split": "^2.0.13",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/node": "^16.7.13",
     "@types/react": "^17.0.0",
+    "@types/react-color": "^3.0.5",
     "@types/react-dom": "^17.0.0",
     "@types/react-scrollbar": "^0.5.2",
     "@types/react-select": "^4.0.17",

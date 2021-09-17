@@ -27,7 +27,7 @@
 - [x] preload imports
 - [x] show strg+s as button
 - [x] save local
-- [ ] editable theme
+- [x] editable theme
 - [ ] multiple files
 - [ ] editable ts config
 - [ ] import non es modules in browser
