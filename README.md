@@ -29,10 +29,51 @@
 - [x] save local
 - [x] editable theme
 - [ ] multiple files
-- [ ] editable ts config
 - [ ] import non es modules in browser
 - [ ] plugin system
 
-### useful links
+## example code
 
-- [Convert VS Code Theme](https://vsctim.vercel.app/)
+```typescript
+import React from 'react';
+import * as R from 'ramda';
+
+// can render react component with style
+<h1 style={{ color: '#fff' }}>Hello World</h1>;
+
+// don't log output
+!"not logged"
+
+const wait = (mil: number, value: any, error?: any) => new Promise((reolve,     reject) => {
+    !setTimeout(() => {
+        if (error) reject(new Error(error));
+        else reolve(value);
+    }, mil);
+});
+
+// can await promises
+wait(1000, 'resolved');
+
+// can await promises and show error
+wait(1000, null, 'rejected');
+
+// can render any value
+const val = {
+    name: "max",
+    age: 34,
+}
+val;
+
+// can render colors
+'#123456'
+
+const numbers = ['1', '2', '3', '4', '#', 'a', '5', '6', '7', '8', '9', '0', 'z'];
+
+R.pipe(
+    R.map<string, number | string>(R.when(v => v === '#', v => v.charCodeAt(0))),
+    R.filter(v => !isNaN(+v)),
+    R.map(a => +a),
+    R.sum
+)(numbers)
+`
+```

@@ -13,7 +13,7 @@ export const onInitializeOvermind = async ({ state, effects }: Context) => {
  * Monaco Editor before mount
  * @param payload Monaco reference
  */
-export const beforeMount = ({ state, effects }: Context, monaco: Monaco) => {
+export const beforeMount = ({ state }: Context, monaco: Monaco) => {
   state.current = 'mounting';
 
   monaco.editor.defineTheme('default-dark', createEditorTheme(state.theme));
@@ -31,6 +31,7 @@ export const beforeMount = ({ state, effects }: Context, monaco: Monaco) => {
     jsx: monaco.languages.typescript.JsxEmit.React,
     jsxFactory: 'React.createElement',
     typeRoots: ['node_modules/@types'],
+    removeComments: false,
   });
   // enable validation
   monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
