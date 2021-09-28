@@ -8,6 +8,7 @@ export const run = async ({ state, actions, effects }: Context) => {
   if (state.running) return;
   try {
     state.running = true;
+    state.error = false;
     // clear last output
     window.dispatchEvent(new Event('clear-logs'));
     // save code
@@ -21,6 +22,8 @@ export const run = async ({ state, actions, effects }: Context) => {
     // done
     state.running = false;
   } catch (error) {
+    state.running = false;
+    state.error = error;
     console.error(error);
   }
 };

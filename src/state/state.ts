@@ -25,6 +25,7 @@ export type AppState = {
   imports: Record<string, Package>;
   libraries: TypesLibrary[];
   theme: Theme;
+  error?: any;
 };
 
 export const state: AppState = {
