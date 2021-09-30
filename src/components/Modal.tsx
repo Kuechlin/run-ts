@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useAppState } from '../state';
+import { AppSize } from '../utils/appsize';
 import { Text } from './Text';
 
 type ModalProps = {
@@ -9,9 +11,10 @@ type ModalProps = {
   onClose?(): void;
 };
 export default function Modal({ open, title, children, onClose }: ModalProps) {
+  const size = useAppState().size;
   return (
     <Wrapper open={open} onClick={onClose}>
-      <Content onClick={(e) => e.stopPropagation()}>
+      <Content onClick={(e) => e.stopPropagation()} size={size}>
         {title && <Title size={24}>{title}</Title>}
         {onClose && (
           <Button onClick={onClose}>
@@ -43,11 +46,12 @@ const Wrapper = styled.div<{ open: boolean }>`
   align-items: flex-start;
 `;
 
-const Content = styled.div`
+const Content = styled.div<{ size: AppSize }>`
   position: relative;
   background-color: ${(p) => p.theme.colors.background};
   color: ${(p) => p.theme.colors.foreground};
   border-radius: 2px;
+  width: ${(p) => (p.size === 's' ? 'calc(100% - 16px)' : '800px')};
 `;
 
 const Title = styled(Text)`

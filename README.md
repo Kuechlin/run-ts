@@ -6,6 +6,8 @@
 
 ## [Use it Online](https://kuechlin.github.io/run-ts/)
 
+🚨 can only be used in browsers with es module support 🚨
+
 ## features
 
 - [monaco editor](https://microsoft.github.io/monaco-editor/)
@@ -14,6 +16,11 @@
 - react support
 - import es modules with types
 - direct output for every statement
+  - any js value
+  - await promises and display result | error
+  - render react element with styles
+- runs directly in browser
+- works on mobile
 
 ## roadmap
 
@@ -22,12 +29,12 @@
 - [x] resizable layout
 - [x] log promise
 - [x] log react component
-- [x] console feed
 - [x] import in browser
 - [x] preload imports
 - [x] show strg+s as button
 - [x] save local
 - [x] editable theme
+- [x] mobile support
 - [ ] multiple files
 - [ ] import non es modules in browser
 - [ ] plugin system
@@ -41,7 +48,7 @@ import * as R from 'ramda';
 // can render react component with style
 <h1 style={{ color: '#fff' }}>Hello World</h1>;
 
-// don't log output
+// ! don't log output
 !"not logged"
 
 const wait = (mil: number, value: any, error?: any) => new Promise((reolve,     reject) => {
@@ -69,6 +76,8 @@ val;
 
 const numbers = ['1', '2', '3', '4', '#', 'a', '5', '6', '7', '8', '9', '0', 'z'];
 
+// can import and use es-modules
+// modules and types are loaded from https://unpkg.com
 R.pipe(
     R.map<string, number | string>(R.when(v => v === '#', v => v.charCodeAt(0))),
     R.filter(v => !isNaN(+v)),

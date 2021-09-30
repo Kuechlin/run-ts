@@ -1,3 +1,4 @@
+import { AppSize, getAppSize } from '../utils/appsize';
 import { defaultTheme, Theme } from '../utils/theme';
 
 export type Package = {
@@ -26,6 +27,8 @@ export type AppState = {
   libraries: TypesLibrary[];
   theme: Theme;
   error?: any;
+  size: AppSize;
+  active?: 'editor' | 'output';
 };
 
 export const state: AppState = {
@@ -33,4 +36,5 @@ export const state: AppState = {
   imports: {},
   libraries: [],
   theme: defaultTheme,
+  size: getAppSize(),
 };

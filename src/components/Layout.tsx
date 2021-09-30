@@ -1,7 +1,9 @@
 import React from 'react';
 import Split from 'react-split';
 import styled from 'styled-components';
+import { useAppState } from '../state';
 import { shadeColor } from '../utils/theme';
+import { ErrorFallback } from './ErrorFallback';
 import { Text } from './Text';
 
 type LayoutProps = {
@@ -16,6 +18,7 @@ export default function Layout({
   output,
   onKeyDown,
 }: LayoutProps) {
+  const state = useAppState();
   return (
     <Wrapper onKeyDown={onKeyDown}>
       <Header>
@@ -28,19 +31,55 @@ export default function Layout({
         <div style={{ flexGrow: 1 }} />
         {header}
       </Header>
-      <Split className="split" gutterSize={4} sizes={[60, 40]}>
-        <Cell border>
-          <Title children="editor" />
-          {editor}
-        </Cell>
-        <Cell>
-          <Title children="output" />
-          {output}
-        </Cell>
-      </Split>
+      {state.size === 'l' ? (
+        <Split className="split" gutterSize={4} sizes={[60, 40]}>
+          <Cell border>
+            <Title children="editor" />
+            {editor}
+          </Cell>
+          <Cell>
+            <Title children="output" />
+            {output}
+          </Cell>
+        </Split>
+      ) : (
+        <div className="split">
+          <Show if={state.active === 'output'} then={output} else={editor} />
+        </div>
+      )}
     </Wrapper>
   );
 }
+
+type IfProps = {
+  if: boolean;
+  then: React.ReactNode;
+  else?: React.ReactNode;
+};
+const Show = ({ if: _if, then: _then, else: _else }: IfProps) => {
+  return (
+    <>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: _if ? 'block' : 'none',
+        }}
+        children={_then}
+      />
+      {_else && (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: _if ? 'none' : 'block',
+          }}
+          children={_else}
+        />
+      )}
+    </>
+  );
+};
 
 const Wrapper = styled.div`
   height: 100vh;

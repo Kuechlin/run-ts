@@ -47,10 +47,12 @@ const ResetButton = styled(Button)`
   border: 2px solid ${(p) => p.theme.colors.border};
 `;
 const Row = styled.div`
-  width: 40%;
+  width: 50%;
+  box-sizing: border-box;
   display: flex;
   padding: 4px;
   align-items: center;
+  justify-content: center;
 `;
 
 const Label = styled(Text)`

@@ -45,7 +45,6 @@ export default function <T extends Record<string, any>>({
 
 const Table = styled.table`
   border-collapse: collapse;
-  min-width: 400px;
 
   td,
   th {

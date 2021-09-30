@@ -41,31 +41,27 @@ export default function () {
 
 const Wrapper = styled.div`
   display: flex;
-  width: 800px;
+  width: 100%;
+  flex-direction: column;
 `;
 const Content = styled.div`
   flex-grow: 1;
   padding: 8px;
 `;
 
-const MenuWrapper = styled.ul`
-  list-style-type: none;
-  width: 100px;
-  padding: 0px;
-  margin: 0px;
-  border-right: 1px solid ${(p) => p.theme.colors.border};
-  > *:last-child {
-    border: none;
-  }
-`;
-const MenuItem = styled.li<{ active: boolean }>`
-  padding: 8px;
+const MenuWrapper = styled.div`
   border-bottom: 1px solid ${(p) => p.theme.colors.border};
+  display: flex;
+`;
+const MenuItem = styled.div<{ active: boolean }>`
+  padding: 8px;
+  border-bottom: 2px solid ${(p) => p.theme.colors.border};
+  margin-bottom: -2px;
   cursor: pointer;
-  background-color: ${(p) => (p.active ? p.theme.colors.link : 'transparent')};
+  border-color: ${(p) => (p.active ? p.theme.colors.link : 'transparent')};
 
   &:hover {
-    background-color: ${(p) => shadeColor(p.theme.colors.background, 40)};
+    border-color: ${(p) => shadeColor(p.theme.colors.foreground, 40)};
   }
 `;
 type MenuProps = {

@@ -31,17 +31,15 @@ export default () => {
               render: (pkg) => pkg.version,
             },
             {
-              name: 'actions',
+              name: '',
               render: (pkg) =>
                 pkg.isDependency ? (
-                  <small children="dependency" />
+                  <small children="dep" />
                 ) : (
                   <Button
                     onClick={() => actions.unload(pkg.name)}
                     icon={<DeleteIcon size={16} />}
-                  >
-                    delete
-                  </Button>
+                  />
                 ),
             },
           ]}

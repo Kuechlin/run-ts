@@ -1,12 +1,19 @@
 import { Context } from '..';
+import { getAppSize } from '../../utils/appsize';
 import { createEditorTheme, defaultTheme, Theme } from '../../utils/theme';
 import { g, ICodeEditor, Monaco } from '../global';
 
 export * from './import';
 export * from './run';
 
-export const onInitializeOvermind = async ({ state, effects }: Context) => {
+export const onInitializeOvermind = async ({
+  state,
+  effects,
+  actions,
+}: Context) => {
   state.theme = effects.local.getTheme();
+
+  window.addEventListener('resize', actions.resize);
 };
 
 /**
@@ -71,4 +78,24 @@ export const resetTheme = ({ state, effects }: Context) => {
   state.theme = defaultTheme;
   effects.local.setTheme(defaultTheme);
   g.monaco?.editor.defineTheme('default-dark', createEditorTheme(state.theme));
+};
+
+/**
+ * set active application part
+ */
+export const setActive = ({ state }: Context, key: 'editor' | 'output') => {
+  state.active = key;
+};
+
+/**
+ * handle windows resize
+ */
+export const resize = ({ state }: Context) => {
+  const next = getAppSize();
+  if (next !== state.size) {
+    state.size = next;
+    if (next === 's') {
+      state.active = 'editor';
+    }
+  }
 };
