@@ -72,10 +72,9 @@ function PackageSearch() {
     if (selected && !loading) {
       try {
         setLoading(true);
-        console.log(selected);
         await actions.install({ name: selected });
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         setLoading(false);
         setSelected(null);

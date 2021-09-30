@@ -3,6 +3,7 @@ import React from 'react';
 import { TypesFile, TypesLibrary } from '../state';
 export * from './local';
 export * from './ts-worker';
+export * from './transform';
 
 export const wait = (mil: number) =>
   new Promise((resolve) => setTimeout(resolve, mil));
@@ -143,7 +144,7 @@ const loadTypesFile = (
       content: res.data,
     }))
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       return null;
     });
 };

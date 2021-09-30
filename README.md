@@ -35,6 +35,7 @@
 - [x] save local
 - [x] editable theme
 - [x] mobile support
+- [ ] multiple logs per line
 - [ ] multiple files
 - [ ] import non es modules in browser
 - [ ] plugin system

@@ -8,7 +8,7 @@ import Spinner from './Spinner';
 import { Text } from './Text';
 
 export default function Output() {
-  const [output, setOutput] = useState<Record<string, any>>({});
+  const [output, setOutput] = useState<Record<string, any[]>>({});
   const clear = () => setOutput({});
 
   const log = useCallback((row: number, val: any) => {

@@ -132,7 +132,7 @@ export function shadeColor(color: string, percent: number) {
 }
 
 export function isColor(color: string) {
-  return /^#{0,1}[0-9a-f]{3,6}$/i.test(color);
+  return /^#[0-9a-f]{3,6}$/i.test(color);
 }
 
 export function invertColor(color: string) {
@@ -146,6 +146,7 @@ export function invertColor(color: string) {
 }
 
 function parseColor(color: string): { r: number; g: number; b: number } {
+  if (!color || typeof color !== 'string') return { r: 0, g: 0, b: 0 };
   // remove hash
   if (color.indexOf('#') === 0) {
     color = color.slice(1);
