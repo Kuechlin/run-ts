@@ -65,7 +65,7 @@ const SaveButton = ({ onClick }: { onClick(): void }) => {
   let callback = onClick;
   let text = 'strg + s';
   if (state.size === 's' && state.active === 'output') {
-    text = 'back to editor';
+    text = 'to editor';
     callback = () => actions.setActive('editor');
   } else if (state.size === 's') {
     text = 'show output';
