@@ -42,7 +42,8 @@ export function transform(
                 path.node.expression.callee.type === 'Identifier' &&
                 path.node.expression.callee.name === 'log') ||
               (path.node.expression.type === 'UnaryExpression' &&
-                path.node.expression.argument.type !== 'UnaryExpression')
+                path.node.expression.argument.type !== 'UnaryExpression') ||
+              path.node.expression.type === 'AssignmentExpression'
             )
               return;
 
